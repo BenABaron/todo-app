@@ -11,7 +11,7 @@ export default class App extends Component {
     this.state = {
       isClicked: false,
       todos: [],
-      inputValue: '' //'' empty string
+      text: '' //'' empty string
     };
 
     // binding
@@ -25,14 +25,22 @@ export default class App extends Component {
     this.setState({isClicked: !clickValue}); // writing
   }
 
-  handleChange = (event) => {
-    this.setState({inputValue: event.target.value})
+  onChangeHandler = (event) => {
+    const inputValue = event.target.value;
+    this.setState({text: inputValue});
   }
 
-  handleSubmit = (event) => {
+  onSubmitHandler = (event) => {
     event.preventDefault()
-    this.setState({todos: [...this.state.todos, this.state.inputValue]})
-    this.setState({inputValue: ''})
+    this.setState({todos: [...this.state.todos, this.state.text]})
+    this.setState({text: ''})
+  }
+
+  deleteItem = (index) => {
+    console.log('was clicked!', index);
+    let copyOfList = this.state.todos;
+    copyOfList.splice(index, 1);
+    this.setState({todos: [...copyOfList]});
   }
 
   render() {
@@ -44,12 +52,12 @@ export default class App extends Component {
         {/* <button onClick={this.onClickHandler}>
           Click Here!
         </button> */}
-        <form onSubmit={this.handleSubmit}>
-          <input type='text' value={this.state.inputValue} onChange={this.handleChange}></input>
+        <form onSubmit={this.onSubmitHandler}>
+          <input type='text' value={this.state.text} onChange={this.onChangeHandler}></input>
           <button type='submit'>Submit Here</button>
         </form>
         <ol>{this.state.todos.map((todo, index) => {
-          return <TodoCard key={index} title={todo}/>
+          return <TodoCard key={index} index={index} title={todo} clickToRemove={this.deleteItem}/>
         })}</ol>
         {this.props.name}
       </>

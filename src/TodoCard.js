@@ -1,9 +1,11 @@
 import React from 'react';
 
 function TodoCard(props) {
+
+  const {title, clickToRemove, index} = props
   return (
-    <li>{props.title}
-      <button onClick={()=>{props.clickToRemove(props.index)}}>Delete</button>
+    <li>{title}
+      <button onClick={()=>{clickToRemove(index)}}>Delete</button>
     </li>   
   )
 }
